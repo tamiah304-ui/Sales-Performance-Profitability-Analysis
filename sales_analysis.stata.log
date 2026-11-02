@@ -1,0 +1,1220 @@
+---------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Mystatadata\sales_analysis.log
+  log type:  text
+ opened on:  24 Jun 2026, 15:13:38
+
+. import delimited "Sales_data_cleaned", clear
+import: unknown subcommand "delimited"
+r(198);
+
+. exit, clear
+---------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Mystatadata\Sales_analysis.log
+  log type:  text
+ opened on:  22 Jul 2026, 10:43:54
+
+. import delimited "Sales_data_cleaned", clear
+import: unknown subcommand "delimited"
+r(198);
+
+. insheet using "Sales_data.csv", clear
+file Sales_data.csv not found
+r(601);
+
+. insheet using "sales_data_cleaned", clear
+file sales_data_cleaned.raw not found
+r(601);
+
+. insheet using "sales_data_cleaned.csv", clear
+(15 vars, 1000 obs)
+
+. describe
+
+Contains data
+  obs:         1,000                          
+ vars:            15                          
+ size:        94,000                          
+---------------------------------------------------------------------------------------------------------------------------------
+              storage  display     value
+variable name   type   format      label      variable label
+---------------------------------------------------------------------------------------------------------------------------------
+product_id      int    %8.0g                  Product_ID
+sale_date       str10  %10s                   Sale_Date
+sales_rep       str7   %9s                    Sales_Rep
+region          str5   %9s                    Region
+sales_amount    float  %9.0g                  Sales_Amount
+quantity_sold   byte   %8.0g                  Quantity_Sold
+product_categ~y str11  %11s                   Product_Category
+unit_cost       float  %9.0g                  Unit_Cost
+unit_price      float  %9.0g                  Unit_Price
+customer_type   str9   %9s                    Customer_Type
+discount_perc~e byte   %8.0g                  Discount_Percentage
+payment_method  str13  %13s                   Payment_Method
+sales_channel   str6   %9s                    Sales_Channel
+region_and_sa~p str13  %13s                   Region_and_Sales_Rep
+total_profit    float  %9.0g                  Total_Profit
+---------------------------------------------------------------------------------------------------------------------------------
+Sorted by:  
+     Note:  dataset has changed since last saved
+
+. summarize
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+  product_id |      1000    1050.128    29.57351       1001       1100
+   sale_date |         0
+   sales_rep |         0
+      region |         0
+sales_amount |      1000    68460.72    56376.43     211.18   252147.4
+-------------+--------------------------------------------------------
+quantity_s~d |      1000      25.355    14.15901          1         49
+product_ca~y |         0
+   unit_cost |      1000    2475.305    1417.873      60.28     4995.3
+  unit_price |      1000     2728.44      1419.4     167.12    5442.15
+customer_t~e |         0
+-------------+--------------------------------------------------------
+discount_p~e |      1000        2.62    4.337789          0         13
+payment_me~d |         0
+sales_chan~l |         0
+region_and~p |         0
+total_profit |      1000    4618.631    6097.049  -17296.79   23353.92
+
+. misstable summarize
+(variables nonmissing or string)
+
+. duplicates report
+
+Duplicates in terms of all variables
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |         1000             0
+--------------------------------------
+
+. list sale_date in 1/10
+
+     +------------+
+     |  sale_date |
+     |------------|
+  1. | 03/02/2023 |
+  2. | 21/04/2023 |
+  3. | 21/09/2023 |
+  4. | 24/08/2023 |
+  5. | 24/03/2023 |
+     |------------|
+  6. | 11/02/2023 |
+  7. | 11/04/2023 |
+  8. | 06/01/2023 |
+  9. | 29/06/2023 |
+ 10. | 09/10/2023 |
+     +------------+
+
+. tabulate region
+
+     Region |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       East |        263       26.30       26.30
+      North |        267       26.70       53.00
+      South |        226       22.60       75.60
+       West |        244       24.40      100.00
+------------+-----------------------------------
+      Total |      1,000      100.00
+
+. 
+. tabulate product_category
+
+Product_Cat |
+      egory |      Freq.     Percent        Cum.
+------------+-----------------------------------
+   Clothing |        268       26.80       26.80
+Electronics |        246       24.60       51.40
+       Food |        226       22.60       74.00
+  Furniture |        260       26.00      100.00
+------------+-----------------------------------
+      Total |      1,000      100.00
+
+. 
+. tabulate customer_type
+
+Customer_Ty |
+         pe |      Freq.     Percent        Cum.
+------------+-----------------------------------
+        New |        504       50.40       50.40
+  Returning |        496       49.60      100.00
+------------+-----------------------------------
+      Total |      1,000      100.00
+
+. 
+. tabulate payment_method
+
+Payment_Metho |
+            d |      Freq.     Percent        Cum.
+--------------+-----------------------------------
+Bank Transfer |        342       34.20       34.20
+         Cash |        313       31.30       65.50
+  Credit Card |        345       34.50      100.00
+--------------+-----------------------------------
+        Total |      1,000      100.00
+
+. 
+. tabulate sales_channel
+
+Sales_Chann |
+         el |      Freq.     Percent        Cum.
+------------+-----------------------------------
+     Online |        488       48.80       48.80
+     Retail |        512       51.20      100.00
+------------+-----------------------------------
+      Total |      1,000      100.00
+
+. summarize sales_amount total_profit quantity_sold unit_cost unit_price discount_percentage, detail
+
+                        Sales_Amount
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     1703.165         211.18
+ 5%     4569.825         260.73
+10%      8433.56         404.69       Obs                1000
+25%     22891.57         612.46       Sum of Wgt.        1000
+
+50%     53684.95                      Mean           68460.72
+                        Largest       Std. Dev.      56376.43
+75%     103596.9         233904
+90%     153932.4       234866.6       Variance       3.18e+09
+95%     183706.5       235256.8       Skewness       .9361274
+99%     224399.8       252147.4       Kurtosis       3.081759
+
+                        Total_Profit
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%    -10981.05      -17296.79
+ 5%      -4274.8      -16245.32
+10%     -1163.45      -15950.61       Obs                1000
+25%       762.27       -14960.6       Sum of Wgt.        1000
+
+50%     3634.705                      Mean           4618.631
+                        Largest       Std. Dev.      6097.049
+75%      7898.59       21613.05
+90%     13528.81       22108.95       Variance       3.72e+07
+95%     16088.55       22857.04       Skewness       .2878136
+99%      20596.8       23353.92       Kurtosis       3.784454
+
+                        Quantity_Sold
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            1              1
+ 5%            3              1
+10%            6              1       Obs                1000
+25%           13              1       Sum of Wgt.        1000
+
+50%           25                      Mean             25.355
+                        Largest       Std. Dev.      14.15901
+75%           38             49
+90%           45             49       Variance       200.4775
+95%           47             49       Skewness       .0016418
+99%           49             49       Kurtosis       1.798064
+
+                          Unit_Cost
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%       87.515          60.28
+ 5%      304.895           61.5
+10%      533.525          63.41       Obs                1000
+25%      1237.67          68.33       Sum of Wgt.        1000
+
+50%     2467.235                      Mean           2475.305
+                        Largest       Std. Dev.      1417.873
+75%      3703.22        4987.71
+90%      4391.91        4991.09       Variance        2010363
+95%      4701.45        4991.68       Skewness       .0252855
+99%     4938.565         4995.3       Kurtosis       1.807178
+
+                         Unit_Price
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%      300.525         167.12
+ 5%       554.99         175.29
+10%      799.155         181.62       Obs                1000
+25%      1507.87         211.18       Sum of Wgt.        1000
+
+50%       2696.4                      Mean            2728.44
+                        Largest       Std. Dev.        1419.4
+75%      3960.19        5309.32
+90%       4684.9        5316.13       Variance        2014696
+95%     4974.305        5402.28       Skewness       .0233028
+99%     5209.475        5442.15       Kurtosis        1.81142
+
+                     Discount_Percentage
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs                1000
+25%            0              0       Sum of Wgt.        1000
+
+50%            0                      Mean               2.62
+                        Largest       Std. Dev.      4.337789
+75%            6             13
+90%           10             13       Variance       18.81642
+95%           12             13       Skewness       1.237878
+99%           13             13       Kurtosis        2.88535
+
+. log close
+      name:  <unnamed>
+       log:  C:\Mystatadata\Sales_analysis.log
+  log type:  text
+ closed on:  22 Jul 2026, 20:49:37
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Mystatadata\sales_analysis.log
+  log type:  text
+ opened on:  23 Jul 2026, 10:04:16
+
+. insheet using "Sales_data_cleaned.csv", clear
+(15 vars, 1000 obs)
+
+. save "sales_data_cleaned.dta", replace
+(note: file sales_data_cleaned.dta not found)
+file sales_data_cleaned.dta saved
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. * Distribution of Sales Amount
+. histogram sales_amount, frequency normal ///
+> title("Distribution of Sales Amount")
+(bin=29, start=211.17999, width=8687.4545)
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. *Distribution of profit
+. histogram total_profit, normal frequency ///
+> title("Distribution of Total Profit")
+(bin=29, start=-17296.789, width=1401.7486)
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. 
+. *Distribution of Quantity Sold
+. histogram quantity_sold, discrete ///
+> title("Distribution of Quantity Sold")
+(start=1, width=1)
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. graph box sales_amount, ///
+> title("Boxplot of Sales Amount")
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. 
+. graph box total_profit, ///
+> title("Boxplot of Total Profit")
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. 
+. graph box discount_percentage, ///
+> title("Boxplot of Discount Percentage")
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. * Mean Sales by Region
+. graph bar (mean) sales_amount, over(region) ///
+> title("Average Sales by Region")
+
+. 
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. * Mean Profit by Region
+. graph bar (mean) total_profit, over(region) ///
+> title("Average Profit by Region")
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. * Mean Sales by Product Category
+. graph bar (mean) sales_amount, over(product_category) ///
+> title("Average Sales by Product Category")
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. graph bar (mean) total_profit, over(product_category) ///
+> title("Average Profit by Product Category")
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. graph bar (mean) sales_amount, over(customer_type) ///
+> title("Average Sales by Customer Type")
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. graph bar (mean) sales_amount, over(sales_channel) ///
+> title("Average Sales by Sales Channel")
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. correlate sales_amount quantity_sold unit_cost ///
+> unit_price discount_percentage total_profit
+(obs=1000)
+
+             | sales_~t quanti~d unit_c~t unit_p~e discou~e total_~t
+-------------+------------------------------------------------------
+sales_amount |   1.0000
+quantity_s~d |   0.7037   1.0000
+   unit_cost |   0.6515   0.0539   1.0000
+  unit_price |   0.6547   0.0573   0.9951   1.0000
+discount_p~e |  -0.0426  -0.0135   0.0439   0.0482   1.0000
+total_profit |   0.2131   0.4182  -0.1737  -0.1179  -0.4584   1.0000
+
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. 
+. regress total_profit ///
+>     sales_amount ///
+>     quantity_sold ///
+>     unit_cost ///
+>     unit_price ///
+>     discount_percentage
+
+      Source |       SS       df       MS              Number of obs =    1000
+-------------+------------------------------           F(  5,   994) =  522.54
+       Model |  2.6902e+10     5  5.3804e+09           Prob > F      =  0.0000
+    Residual |  1.0235e+10   994  10296637.6           R-squared     =  0.7244
+-------------+------------------------------           Adj R-squared =  0.7230
+       Total |  3.7137e+10   999  37174003.5           Root MSE      =  3208.8
+
+-------------------------------------------------------------------------------------
+       total_profit |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+       sales_amount |  -.0098643   .0051622    -1.91   0.056    -.0199943    .0002656
+      quantity_sold |   198.7248   15.49733    12.82   0.000     168.3135     229.136
+          unit_cost |  -24.79423   .7230039   -34.29   0.000    -26.21302   -23.37544
+         unit_price |   24.38028   .7267087    33.55   0.000     22.95422    25.80634
+discount_percentage |  -669.8579   23.82903   -28.11   0.000    -716.6188   -623.0969
+              _cons |  -3136.542   458.4238    -6.84   0.000    -4036.131   -2236.952
+-------------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. log close
+      name:  <unnamed>
+       log:  C:\Mystatadata\sales_analysis.log
+  log type:  text
+ closed on:  23 Jul 2026, 12:25:06
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Mystatadata\sales_analysis.log
+  log type:  text
+ opened on:  27 Jul 2026, 14:17:48
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. * MULTIPLE LINEAR REGRESSION
+. *******************************************************
+. 
+. regress total_profit ///
+>     sales_amount ///
+>     quantity_sold ///
+>     unit_cost ///
+>     unit_price ///
+>     discount_percentage
+
+      Source |       SS       df       MS              Number of obs =    1000
+-------------+------------------------------           F(  5,   994) =  522.54
+       Model |  2.6902e+10     5  5.3804e+09           Prob > F      =  0.0000
+    Residual |  1.0235e+10   994  10296637.6           R-squared     =  0.7244
+-------------+------------------------------           Adj R-squared =  0.7230
+       Total |  3.7137e+10   999  37174003.5           Root MSE      =  3208.8
+
+-------------------------------------------------------------------------------------
+       total_profit |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+       sales_amount |  -.0098643   .0051622    -1.91   0.056    -.0199943    .0002656
+      quantity_sold |   198.7248   15.49733    12.82   0.000     168.3135     229.136
+          unit_cost |  -24.79423   .7230039   -34.29   0.000    -26.21302   -23.37544
+         unit_price |   24.38028   .7267087    33.55   0.000     22.95422    25.80634
+discount_percentage |  -669.8579   23.82903   -28.11   0.000    -716.6188   -623.0969
+              _cons |  -3136.542   458.4238    -6.84   0.000    -4036.131   -2236.952
+-------------------------------------------------------------------------------------
+
+. 
+end of do-file
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+.         anova sales_amount region
+region:  string variables may not be used as factor variables
+r(109);
+
+end of do-file
+
+r(109);
+
+. log close
+      name:  <unnamed>
+       log:  C:\Mystatadata\sales_analysis.log
+  log type:  text
+ closed on:  27 Jul 2026, 16:36:13
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\Admin\Desktop\DATALAB\Sales_Analysis\sales_analysis.log
+  log type:  text
+ opened on:  11 Sep 2026, 13:40:06
+
+. . insheet using "sales_data_cleaned.csv", clear
+(15 vars, 1000 obs)
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. 
+. regress total_profit ///
+>     sales_amount ///
+>     quantity_sold ///
+>     unit_cost ///
+>     unit_price ///
+>     discount_percentage
+
+      Source |       SS       df       MS              Number of obs =    1000
+-------------+------------------------------           F(  5,   994) =  522.54
+       Model |  2.6902e+10     5  5.3804e+09           Prob > F      =  0.0000
+    Residual |  1.0235e+10   994  10296637.6           R-squared     =  0.7244
+-------------+------------------------------           Adj R-squared =  0.7230
+       Total |  3.7137e+10   999  37174003.5           Root MSE      =  3208.8
+
+-------------------------------------------------------------------------------------
+       total_profit |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+       sales_amount |  -.0098643   .0051622    -1.91   0.056    -.0199943    .0002656
+      quantity_sold |   198.7248   15.49733    12.82   0.000     168.3135     229.136
+          unit_cost |  -24.79423   .7230039   -34.29   0.000    -26.21302   -23.37544
+         unit_price |   24.38028   .7267087    33.55   0.000     22.95422    25.80634
+discount_percentage |  -669.8579   23.82903   -28.11   0.000    -716.6188   -623.0969
+              _cons |  -3136.542   458.4238    -6.84   0.000    -4036.131   -2236.952
+-------------------------------------------------------------------------------------
+
+.         
+.         
+.         anova sales_amount region
+region:  string variables may not be used as factor variables
+r(109);
+
+end of do-file
+
+r(109);
+
+. vif
+
+    Variable |       VIF       1/VIF  
+-------------+----------------------
+  unit_price |    103.23    0.009687
+   unit_cost |    101.96    0.009808
+sales_amount |      8.22    0.121695
+quantity_s~d |      4.67    0.214068
+discount_p~e |      1.04    0.964674
+-------------+----------------------
+    Mean VIF |     43.82
+
+. regress total_profit ///
+/ invalid name
+r(198);
+
+. 
+.     sales_amount ///
+unrecognized command:  sales_amount
+r(199);
+
+. 
+.     quantity_sold ///
+unrecognized command:  quantity_sold
+r(199);
+
+. 
+.     unit_price ///
+unrecognized command:  unit_price
+r(199);
+
+. 
+.     discount_percentage
+unrecognized command:  discount_percentage
+r(199);
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+.         regress total_profit ///
+>     sales_amount ///
+>     quantity_sold ///
+>     unit_price ///
+>     discount_percentage
+
+      Source |       SS       df       MS              Number of obs =    1000
+-------------+------------------------------           F(  4,   995) =  164.68
+       Model |  1.4793e+10     4  3.6982e+09           Prob > F      =  0.0000
+    Residual |  2.2344e+10   995  22456340.7           R-squared     =  0.3983
+-------------+------------------------------           Adj R-squared =  0.3959
+       Total |  3.7137e+10   999  37174003.5           Root MSE      =  4738.8
+
+-------------------------------------------------------------------------------------
+       total_profit |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+       sales_amount |  -.0195917    .007612    -2.57   0.010    -.0345291   -.0046544
+      quantity_sold |   232.5256   22.84012    10.18   0.000     187.7052    277.3459
+         unit_price |  -.0349508   .2151765    -0.16   0.871    -.4572026     .387301
+discount_percentage |  -644.3572   35.17357   -18.32   0.000    -713.3801   -575.3343
+              _cons |   1847.786   642.0729     2.88   0.004      587.814    3107.759
+-------------------------------------------------------------------------------------
+
+.         
+. 
+end of do-file
+
+. vif
+
+    Variable |       VIF       1/VIF  
+-------------+----------------------
+sales_amount |      8.19    0.122063
+quantity_s~d |      4.65    0.214937
+  unit_price |      4.15    0.240976
+discount_p~e |      1.04    0.965614
+-------------+----------------------
+    Mean VIF |      4.51
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. * Average profit by region
+. anova total_profit region
+region:  string variables may not be used as factor variables
+r(109);
+
+end of do-file
+
+r(109);
+
+. do "C:\Users\Admin\AppData\Local\Temp\STD00000000.tmp"
+
+. 
+. encode region, gen(region_num)
+
+. encode product_category, gen(product_category_num)
+
+. encode customer_type, gen(customer_type_num)
+
+. encode payment_method, gen(payment_method_num)
+
+. encode sales_channel, gen(sales_channel_num)
+
+. 
+. *******************************************************
+. * ANOVA TESTS
+. * Dependent variable: Total Profit
+. *******************************************************
+. 
+. anova total_profit region_num
+
+                           Number of obs =    1000     R-squared     =  0.0020
+                           Root MSE      = 6099.99     Adj R-squared = -0.0010
+
+                  Source |  Partial SS    df       MS           F     Prob > F
+              -----------+----------------------------------------------------
+                   Model |  75746192.7     3  25248730.9       0.68     0.5653
+                         |
+              region_num |  75746192.7     3  25248730.9       0.68     0.5653
+                         |
+                Residual |  3.7061e+10   996    37209923   
+              -----------+----------------------------------------------------
+                   Total |  3.7137e+10   999  37174003.5   
+
+. 
+. anova total_profit product_category_num
+
+                           Number of obs =    1000     R-squared     =  0.0036
+                           Root MSE      = 6095.31     Adj R-squared =  0.0006
+
+                  Source |  Partial SS    df       MS           F     Prob > F
+             ------------+----------------------------------------------------
+                   Model |   132642083     3  44214027.6       1.19     0.3124
+                         |
+             product_c~m |   132642083     3  44214027.6       1.19     0.3124
+                         |
+                Residual |  3.7004e+10   996  37152798.6   
+             ------------+----------------------------------------------------
+                   Total |  3.7137e+10   999  37174003.5   
+
+. 
+. anova total_profit customer_type_num
+
+                           Number of obs =    1000     R-squared     =  0.0005
+                           Root MSE      = 6098.47     Adj R-squared = -0.0005
+
+                  Source |  Partial SS    df       MS           F     Prob > F
+             ------------+----------------------------------------------------
+                   Model |  19886283.6     1  19886283.6       0.53     0.4648
+                         |
+             customer_~m |  19886283.6     1  19886283.6       0.53     0.4648
+                         |
+                Residual |  3.7117e+10   998  37191325.9   
+             ------------+----------------------------------------------------
+                   Total |  3.7137e+10   999  37174003.5   
+
+. 
+. anova total_profit payment_method_num
+
+                           Number of obs =    1000     R-squared     =  0.0023
+                           Root MSE      = 6096.23     Adj R-squared =  0.0003
+
+                  Source |  Partial SS    df       MS           F     Prob > F
+             ------------+----------------------------------------------------
+                   Model |  84349796.5     2  42174898.3       1.13     0.3219
+                         |
+             payment_m~m |  84349796.5     2  42174898.3       1.13     0.3219
+                         |
+                Residual |  3.7052e+10   997  37163971.7   
+             ------------+----------------------------------------------------
+                   Total |  3.7137e+10   999  37174003.5   
+
+. 
+. anova total_profit sales_channel_num
+
+                           Number of obs =    1000     R-squared     =  0.0000
+                           Root MSE      =    6100     Adj R-squared = -0.0010
+
+                  Source |  Partial SS    df       MS           F     Prob > F
+             ------------+----------------------------------------------------
+                   Model |  1292631.99     1  1292631.99       0.03     0.8522
+                         |
+             sales_cha~m |  1292631.99     1  1292631.99       0.03     0.8522
+                         |
+                Residual |  3.7136e+10   998  37209956.8   
+             ------------+----------------------------------------------------
+                   Total |  3.7137e+10   999  37174003.5   
+
+. 
+. *******************************************************
+. * END OF ANOVA TESTS
+. *******************************************************
+. 
+. 
+end of do-file
+
+. log close
+      name:  <unnamed>
+       log:  C:\Users\Admin\Desktop\DATALAB\Sales_Analysis\sales_analysis.log
+  log type:  text
+ closed on:  11 Sep 2026, 21:31:00
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  C:\Users\Admin\Desktop\DATALAB\Sales_Analysis\sales_analysis.log
+  log type:  text
+ opened on:  29 Oct 2026, 15:28:45
+
+. 
+. *------------------------------------------------------*
+. * Import Data
+. *------------------------------------------------------*
+. insheet using "sales_data_cleaned.csv", clear
+(15 vars, 1000 obs)
+
+. 
+. *------------------------------------------------------*
+. * Inspect Dataset
+. *------------------------------------------------------*
+. describe
+
+Contains data
+  obs:         1,000                          
+ vars:            15                          
+ size:        94,000                          
+---------------------------------------------------------------------------------------------------------------------------------
+              storage  display     value
+variable name   type   format      label      variable label
+---------------------------------------------------------------------------------------------------------------------------------
+v1              int    %8.0g                  
+sale_date       str10  %10s                   Sale_Date
+sales_rep       str7   %9s                    Sales_Rep
+region          str5   %9s                    Region
+sales_amount    float  %9.0g                  Sales_Amount
+quantity_sold   byte   %8.0g                  Quantity_Sold
+product_categ~y str11  %11s                   Product_Category
+unit_cost       float  %9.0g                  Unit_Cost
+unit_price      float  %9.0g                  Unit_Price
+customer_type   str9   %9s                    Customer_Type
+discount_perc~e byte   %8.0g                  Discount_Percentage
+payment_method  str13  %13s                   Payment_Method
+sales_channel   str6   %9s                    Sales_Channel
+region_and_sa~p str13  %13s                   Region_and_Sales_Rep
+total_profit    float  %9.0g                  Total_Profit
+---------------------------------------------------------------------------------------------------------------------------------
+Sorted by:  
+     Note:  dataset has changed since last saved
+
+. 
+. summarize
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+          v1 |      1000    1050.128    29.57351       1001       1100
+   sale_date |         0
+   sales_rep |         0
+      region |         0
+sales_amount |      1000    68460.72    56376.43     211.18   252147.4
+-------------+--------------------------------------------------------
+quantity_s~d |      1000      25.355    14.15901          1         49
+product_ca~y |         0
+   unit_cost |      1000    2475.305    1417.873      60.28     4995.3
+  unit_price |      1000     2728.44      1419.4     167.12    5442.15
+customer_t~e |         0
+-------------+--------------------------------------------------------
+discount_p~e |      1000        2.62    4.337789          0         13
+payment_me~d |         0
+sales_chan~l |         0
+region_and~p |         0
+total_profit |      1000    4618.631    6097.049  -17296.79   23353.92
+
+. 
+. *------------------------------------------------------*
+. * Check Data Quality
+. *------------------------------------------------------*
+. misstable summarize
+(variables nonmissing or string)
+
+. 
+. duplicates report
+
+Duplicates in terms of all variables
+
+--------------------------------------
+   copies | observations       surplus
+----------+---------------------------
+        1 |         1000             0
+--------------------------------------
+
+. 
+. *------------------------------------------------------*
+. * Inspect Date Variable
+. *------------------------------------------------------*
+. list sale_date in 1/10
+
+     +------------+
+     |  sale_date |
+     |------------|
+  1. | 03/02/2023 |
+  2. | 21/04/2023 |
+  3. | 21/09/2023 |
+  4. | 24/08/2023 |
+  5. | 24/03/2023 |
+     |------------|
+  6. | 11/02/2023 |
+  7. | 11/04/2023 |
+  8. | 06/01/2023 |
+  9. | 29/06/2023 |
+ 10. | 09/10/2023 |
+     +------------+
+
+. 
+. *------------------------------------------------------*
+. * Frequency Tables
+. *------------------------------------------------------*
+. tabulate region
+
+     Region |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       East |        263       26.30       26.30
+      North |        267       26.70       53.00
+      South |        226       22.60       75.60
+       West |        244       24.40      100.00
+------------+-----------------------------------
+      Total |      1,000      100.00
+
+. 
+. tabulate product_category
+
+Product_Cat |
+      egory |      Freq.     Percent        Cum.
+------------+-----------------------------------
+   Clothing |        268       26.80       26.80
+Electronics |        246       24.60       51.40
+       Food |        226       22.60       74.00
+  Furniture |        260       26.00      100.00
+------------+-----------------------------------
+      Total |      1,000      100.00
+
+. 
+. tabulate customer_type
+
+Customer_Ty |
+         pe |      Freq.     Percent        Cum.
+------------+-----------------------------------
+        New |        504       50.40       50.40
+  Returning |        496       49.60      100.00
+------------+-----------------------------------
+      Total |      1,000      100.00
+
+. 
+. tabulate payment_method
+
+Payment_Metho |
+            d |      Freq.     Percent        Cum.
+--------------+-----------------------------------
+Bank Transfer |        342       34.20       34.20
+         Cash |        313       31.30       65.50
+  Credit Card |        345       34.50      100.00
+--------------+-----------------------------------
+        Total |      1,000      100.00
+
+. 
+. tabulate sales_channel
+
+Sales_Chann |
+         el |      Freq.     Percent        Cum.
+------------+-----------------------------------
+     Online |        488       48.80       48.80
+     Retail |        512       51.20      100.00
+------------+-----------------------------------
+      Total |      1,000      100.00
+
+. 
+. *------------------------------------------------------*
+. * Detailed Summary Statistics
+. *------------------------------------------------------*
+. summarize sales_amount total_profit quantity_sold ///
+> unit_cost unit_price discount_percentage, detail
+
+                        Sales_Amount
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     1703.165         211.18
+ 5%     4569.825         260.73
+10%      8433.56         404.69       Obs                1000
+25%     22891.57         612.46       Sum of Wgt.        1000
+
+50%     53684.95                      Mean           68460.72
+                        Largest       Std. Dev.      56376.43
+75%     103596.9         233904
+90%     153932.4       234866.6       Variance       3.18e+09
+95%     183706.5       235256.8       Skewness       .9361274
+99%     224399.8       252147.4       Kurtosis       3.081759
+
+                        Total_Profit
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%    -10981.05      -17296.79
+ 5%      -4274.8      -16245.32
+10%     -1163.45      -15950.61       Obs                1000
+25%       762.27       -14960.6       Sum of Wgt.        1000
+
+50%     3634.705                      Mean           4618.631
+                        Largest       Std. Dev.      6097.049
+75%      7898.59       21613.05
+90%     13528.81       22108.95       Variance       3.72e+07
+95%     16088.55       22857.04       Skewness       .2878136
+99%      20596.8       23353.92       Kurtosis       3.784454
+
+                        Quantity_Sold
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            1              1
+ 5%            3              1
+10%            6              1       Obs                1000
+25%           13              1       Sum of Wgt.        1000
+
+50%           25                      Mean             25.355
+                        Largest       Std. Dev.      14.15901
+75%           38             49
+90%           45             49       Variance       200.4775
+95%           47             49       Skewness       .0016418
+99%           49             49       Kurtosis       1.798064
+
+                          Unit_Cost
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%       87.515          60.28
+ 5%      304.895           61.5
+10%      533.525          63.41       Obs                1000
+25%      1237.67          68.33       Sum of Wgt.        1000
+
+50%     2467.235                      Mean           2475.305
+                        Largest       Std. Dev.      1417.873
+75%      3703.22        4987.71
+90%      4391.91        4991.09       Variance        2010363
+95%      4701.45        4991.68       Skewness       .0252855
+99%     4938.565         4995.3       Kurtosis       1.807178
+
+                         Unit_Price
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%      300.525         167.12
+ 5%       554.99         175.29
+10%      799.155         181.62       Obs                1000
+25%      1507.87         211.18       Sum of Wgt.        1000
+
+50%       2696.4                      Mean            2728.44
+                        Largest       Std. Dev.        1419.4
+75%      3960.19        5309.32
+90%       4684.9        5316.13       Variance        2014696
+95%     4974.305        5402.28       Skewness       .0233028
+99%     5209.475        5442.15       Kurtosis        1.81142
+
+                     Discount_Percentage
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs                1000
+25%            0              0       Sum of Wgt.        1000
+
+50%            0                      Mean               2.62
+                        Largest       Std. Dev.      4.337789
+75%            6             13
+90%           10             13       Variance       18.81642
+95%           12             13       Skewness       1.237878
+99%           13             13       Kurtosis        2.88535
+
+. 
+. *******************************************************
+. * EXPLORATORY DATA ANALYSIS (EDA)
+. *******************************************************
+. 
+. * Distribution of Sales Amount
+. histogram sales_amount, frequency normal ///
+> title("Distribution of Sales Amount")
+(bin=29, start=211.17999, width=8687.4545)
+
+. 
+. *Distribution of profit
+. histogram total_profit, normal frequency ///
+> title("Distribution of Total Profit")
+(bin=29, start=-17296.789, width=1401.7486)
+
+. 
+. 
+. *Distribution of Quantity Sold
+. histogram quantity_sold, discrete ///
+> title("Distribution of Quantity Sold")
+(start=1, width=1)
+
+. 
+. graph box sales_amount, ///
+> title("Boxplot of Sales Amount")
+
+. 
+. graph box total_profit, ///
+> title("Boxplot of Total Profit")
+
+. 
+. graph box discount_percentage, ///
+> title("Boxplot of Discount Percentage")
+
+. 
+. *******************************************************
+. * Sales and Profit by Groups
+. *******************************************************
+. 
+. * Mean Sales by Region
+. graph bar (mean) sales_amount, over(region) ///
+> title("Average Sales by Region")
+
+. 
+. * Mean Profit by Region
+. graph bar (mean) total_profit, over(region) ///
+> title("Average Profit by Region")
+
+. 
+. * Mean Sales by Product Category
+. graph bar (mean) sales_amount, over(product_category) ///
+> title("Average Sales by Product Category")
+
+. 
+. * Mean Profit by Product Category
+. graph bar (mean) total_profit, over(product_category) ///
+> title("Average Profit by Product Category")
+
+. 
+. * Mean Sales by Customer Type
+. graph bar (mean) sales_amount, over(customer_type) ///
+> title("Average Sales by Customer Type")
+
+. 
+. * Mean Sales by Sales Channel
+. graph bar (mean) sales_amount, over(sales_channel) ///
+> title("Average Sales by Sales Channel")
+
+. 
+. 
+. *******************************************************
+. * CORRELATION ANALYSIS
+. *******************************************************
+. 
+. * Correlation matrix
+. correlate sales_amount quantity_sold unit_cost ///
+> unit_price discount_percentage total_profit
+(obs=1000)
+
+             | sales_~t quanti~d unit_c~t unit_p~e discou~e total_~t
+-------------+------------------------------------------------------
+sales_amount |   1.0000
+quantity_s~d |   0.7037   1.0000
+   unit_cost |   0.6515   0.0539   1.0000
+  unit_price |   0.6547   0.0573   0.9951   1.0000
+discount_p~e |  -0.0426  -0.0135   0.0439   0.0482   1.0000
+total_profit |   0.2131   0.4182  -0.1737  -0.1179  -0.4584   1.0000
+
+
+. 
+. *******************************************************
+. * MULTIPLE LINEAR REGRESSION
+. *******************************************************
+. 
+. regress total_profit ///
+>     sales_amount ///
+>     quantity_sold ///
+>     unit_cost ///
+>     unit_price ///
+>     discount_percentage
+
+      Source |       SS       df       MS              Number of obs =    1000
+-------------+------------------------------           F(  5,   994) =  522.54
+       Model |  2.6902e+10     5  5.3804e+09           Prob > F      =  0.0000
+    Residual |  1.0235e+10   994  10296637.6           R-squared     =  0.7244
+-------------+------------------------------           Adj R-squared =  0.7230
+       Total |  3.7137e+10   999  37174003.5           Root MSE      =  3208.8
+
+-------------------------------------------------------------------------------------
+       total_profit |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+       sales_amount |  -.0098643   .0051622    -1.91   0.056    -.0199943    .0002656
+      quantity_sold |   198.7248   15.49733    12.82   0.000     168.3135     229.136
+          unit_cost |  -24.79423   .7230039   -34.29   0.000    -26.21302   -23.37544
+         unit_price |   24.38028   .7267087    33.55   0.000     22.95422    25.80634
+discount_percentage |  -669.8579   23.82903   -28.11   0.000    -716.6188   -623.0969
+              _cons |  -3136.542   458.4238    -6.84   0.000    -4036.131   -2236.952
+-------------------------------------------------------------------------------------
+
+.         
+.         
+.         anova sales_amount region
+region:  string variables may not be used as factor variables
+r(109);
+
+end of do-file
+
+r(109);
+
+. encode region, gen(region_num)
+
+. 
+. anova sales_amount region_num
+
+                           Number of obs =    1000     R-squared     =  0.0012
+                           Root MSE      = 56427.7     Adj R-squared = -0.0018
+
+                  Source |  Partial SS    df       MS           F     Prob > F
+              -----------+----------------------------------------------------
+                   Model |  3.7710e+09     3  1.2570e+09       0.39     0.7568
+                         |
+              region_num |  3.7710e+09     3  1.2570e+09       0.39     0.7568
+                         |
+                Residual |  3.1714e+12   996  3.1841e+09   
+              -----------+----------------------------------------------------
+                   Total |  3.1751e+12   999  3.1783e+09   
+
+. regress total_profit sales_amount quantity_sold unit_cost unit_price discount_percentage
+
+      Source |       SS       df       MS              Number of obs =    1000
+-------------+------------------------------           F(  5,   994) =  522.54
+       Model |  2.6902e+10     5  5.3804e+09           Prob > F      =  0.0000
+    Residual |  1.0235e+10   994  10296637.6           R-squared     =  0.7244
+-------------+------------------------------           Adj R-squared =  0.7230
+       Total |  3.7137e+10   999  37174003.5           Root MSE      =  3208.8
+
+-------------------------------------------------------------------------------------
+       total_profit |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+       sales_amount |  -.0098643   .0051622    -1.91   0.056    -.0199943    .0002656
+      quantity_sold |   198.7248   15.49733    12.82   0.000     168.3135     229.136
+          unit_cost |  -24.79423   .7230039   -34.29   0.000    -26.21302   -23.37544
+         unit_price |   24.38028   .7267087    33.55   0.000     22.95422    25.80634
+discount_percentage |  -669.8579   23.82903   -28.11   0.000    -716.6188   -623.0969
+              _cons |  -3136.542   458.4238    -6.84   0.000    -4036.131   -2236.952
+-------------------------------------------------------------------------------------
+
+. estat hettest
+
+Breusch-Pagan / Cook-Weisberg test for heteroskedasticity 
+         Ho: Constant variance
+         Variables: fitted values of total_profit
+
+         chi2(1)      =    51.68
+         Prob > chi2  =   0.0000
+
+. regress total_profit sales_amount quantity_sold unit_cost unit_price discount_percentage, vce(robust)
+
+Linear regression                                      Number of obs =    1000
+                                                       F(  5,   994) =  322.22
+                                                       Prob > F      =  0.0000
+                                                       R-squared     =  0.7244
+                                                       Root MSE      =  3208.8
+
+-------------------------------------------------------------------------------------
+                    |               Robust
+       total_profit |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+--------------------+----------------------------------------------------------------
+       sales_amount |  -.0098643   .0064363    -1.53   0.126    -.0224946    .0027659
+      quantity_sold |   198.7248    17.6985    11.23   0.000      163.994    233.4555
+          unit_cost |  -24.79423   .8117366   -30.54   0.000    -26.38715   -23.20132
+         unit_price |   24.38028   .7996872    30.49   0.000     22.81101    25.94955
+discount_percentage |  -669.8579   36.46169   -18.37   0.000    -741.4086   -598.3072
+              _cons |  -3136.542   484.7078    -6.47   0.000     -4087.71   -2185.374
+-------------------------------------------------------------------------------------
+
+. log close
+      name:  <unnamed>
+       log:  C:\Users\Admin\Desktop\DATALAB\Sales_Analysis\sales_analysis.log
+  log type:  text
+ closed on:  29 Oct 2026, 16:32:33
+---------------------------------------------------------------------------------------------------------------------------------
